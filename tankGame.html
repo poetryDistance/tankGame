@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>坦克大战</h1>
+  <canvas id="tankMap" width="400" height="300" style="background-color: black;" ></canvas>
+
+  <script>
+    // 使用 canvas 画出坦克
+    var canvas = document.getElementById('tankMap')
+    var ctx = canvas.getContext('2d')
+
+    var heroX = 40
+    var heroY = 80
+
+    // 设置颜色
+    ctx.fillStyle = '#ded284'
+    // 左边矩形
+    ctx.fillRect(heroX, heroY, 6, 36)
+    // 右边矩形
+    ctx.fillRect(heroX+18, heroY, 6, 36)
+    // 中间矩形
+    ctx.fillRect(heroX+7, heroY+7, 10, 22)
+    // 坦克的盖子
+    ctx.fillStyle = '#ffd972'
+    ctx.arc(heroX+12, heroY+18, 5, 0, 2*Math.PI, true)
+    ctx.fill()
+    // 炮筒
+    ctx.beginPath()
+    ctx.strokeStyle = '#ffd972'
+    ctx.lineWidth = '2px'
+    ctx.moveTo(heroX+12, heroY+18)
+    ctx.lineTo(heroX+12, heroY)
+    ctx.closePath()
+    ctx.stroke()
+  </script>
+</body>
+</html>
