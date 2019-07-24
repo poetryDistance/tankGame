@@ -29,13 +29,72 @@ class Tank {
   }
 }
 
-
+// 定义子弹类
+class Bullet {
+  constructor (options) {
+    this.x = options.x
+    this.y = options.y
+    this.direct = options.direct
+    this.speed = options.speed || 1
+    this.timer = null
+    this.flag = true
+  }
+  runBullet () {
+    if (this.x <= 0 || this.x >= 400 || this.y <= 0 || this.y >= 300) {
+      clearInterval(this.timer)
+      this.flag = false
+    }
+    switch(this.direct) {
+      case 0:
+        this.y -= this.speed
+        break
+      case 1:
+        this.x += this.speed
+        break
+      case 2:
+        this.y += this.speed
+        break
+      case 3:
+        this.x -= this.speed
+        break
+    }
+  }
+}
 
 // 定义 HeroTank 坦克类，用来渲染玩家控制的坦克
 class HeroTank extends Tank {
   constructor(options) {
     super(options)
   }
+
+  // 发射子弹
+  shotEnemy() {
+    // 创建子弹
+    switch (this.direct) {
+      case 0:
+        heroBullet = new Bullet({ x: this.x-1, y: this.y-18, direct: this.direct })
+        break
+      case 1:
+        heroBullet = new Bullet({ x: this.x+16, y: this.y-1, direct: this.direct })
+        break
+      case 2:
+        heroBullet = new Bullet({ x: this.x-1, y: this.y+18, direct: this.direct })
+        break
+      case 3:
+        heroBullet = new Bullet({ x: this.x-18, y: this.y-1, direct: this.direct })
+        break
+    }
+    // 让子弹飞
+    var timer = setInterval('heroBullet.runBullet()', 50)
+    heroBullet.timer = timer
+  }
+  // 画出子弹
+  drawHeroBullet() {
+  if (heroBullet !== null && heroBullet.flag) {
+    ctx.fillStyle = '#fef26e'
+    ctx.fillRect(heroBullet.x, heroBullet.y, 2, 2)
+  }
+}
 }
 
 // 定义 EnemyTank 坦克类，用来渲染敌方坦克
@@ -45,7 +104,7 @@ class EnemyTank extends Tank {
   }
 }
 
-// 渲染坦克
+// 画出坦克
 function drawTank(tank) {
   switch (tank.direct) {
     case 0:
