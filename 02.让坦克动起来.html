@@ -15,9 +15,36 @@
     var canvas = document.getElementById('tankMap')
     var ctx = canvas.getContext('2d')
 
-    var hero = new HeroTank(24, 36, 2, 0)
+    // 创建玩家的坦克
+    var hero = new HeroTank({
+      x: 200,
+      y: 100,
+      speed: 3,
+      direct: 0,
+      color: ['#ded284', '#ffd972']
+    })
 
-    drawTank(hero)
+    // 创建敌方坦克
+    var enemys = []
+    for (var i = 0; i < 3; i++) {
+      var enemyTank = new EnemyTank({
+        x: (i+1)*50,
+        y: 0,
+        speed: 1,
+        direct: 2,
+        color: ['#00a2b5', '#00fefe']
+      })
+      enemys[i] = enemyTank
+    }
+
+    // 刷新画布
+    function flashTankMap() {
+      ctx.clearRect(0, 0, 400, 300)
+      drawTank(hero)
+      enemys.map(item => drawTank(item))
+    }
+
+    flashTankMap()
 
     // 让坦克动起来
     function getCommand () {
@@ -40,8 +67,7 @@
           hero.moveLeft()
           break
       }
-      ctx.clearRect(0, 0, 400, 300)
-      drawTank(hero)
+      flashTankMap()
     }
   </script>
 </body>

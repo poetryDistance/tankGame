@@ -1,29 +1,47 @@
-// 定义一个坦克对象
-function HeroTank (x, y, speed,direct) {
-  this.x = x || 12 
-  this.y = y || 18
-  this.speed = Math.abs(speed) || 1
-  this.direct = direct || 0
-
-  // 上移
-  this.moveUp = function () {
+// 定义一个坦克父类，抽取坦克的公共属性和方法
+class Tank {
+  constructor (options) {
+    this.x = options.x || 12 
+    this.y = options.y || 18
+    this.speed = Math.abs(options.speed) || 1
+    this.direct = options.direct || 0
+    this.color = options.color
+  }
+   // 上移
+  moveUp () {
     this.y -= this.speed
     this.direct = 0
   }
   // 右移
-  this.moveRight = function () {
+  moveRight () {
     this.x += this.speed
     this.direct = 1
   }
   // 下移
-  this.moveDown = function () {
+  moveDown () {
     this.y += this.speed
     this.direct = 2
   }
   // 左移
-  this.moveLeft = function () {
+  moveLeft () {
     this.x -= this.speed
     this.direct = 3
+  }
+}
+
+
+
+// 定义 HeroTank 坦克类，用来渲染玩家控制的坦克
+class HeroTank extends Tank {
+  constructor(options) {
+    super(options)
+  }
+}
+
+// 定义 EnemyTank 坦克类，用来渲染敌方坦克
+class EnemyTank extends Tank {
+  constructor(options) {
+    super(options)
   }
 }
 
@@ -33,26 +51,26 @@ function drawTank(tank) {
     case 0:
     case 2:
       // 设置颜色
-      ctx.fillStyle = '#ded284'
+      ctx.fillStyle = tank.color[0]
       // 左边矩形
-      ctx.fillRect(hero.x-12, hero.y-18, 6, 36)
+      ctx.fillRect(tank.x-12, tank.y-18, 6, 36)
       // 右边矩形
-      ctx.fillRect(hero.x+6, hero.y-18, 6, 36)
+      ctx.fillRect(tank.x+6, tank.y-18, 6, 36)
       // 中间矩形
-      ctx.fillRect(hero.x-5, hero.y-11, 10, 22)
+      ctx.fillRect(tank.x-5, tank.y-11, 10, 22)
       // 坦克的盖子
-      ctx.fillStyle = '#ffd972'
-      ctx.arc(hero.x, hero.y, 5, 0, 2*Math.PI, true)
+      ctx.fillStyle = tank.color[1]
+      ctx.arc(tank.x, tank.y, 5, 0, 2*Math.PI, true)
       ctx.fill()
       // 炮筒
       ctx.beginPath()
-      ctx.strokeStyle = '#ffd972'
+      ctx.strokeStyle = tank.color[1]
       ctx.lineWidth = '2px'
-      ctx.moveTo(hero.x, hero.y)
+      ctx.moveTo(tank.x, tank.y)
       if (tank.direct == 0) {
-        ctx.lineTo(hero.x, hero.y-18)
+        ctx.lineTo(tank.x, tank.y-18)
       } else if (tank.direct == 2) {
-        ctx.lineTo(hero.x, hero.y+18)
+        ctx.lineTo(tank.x, tank.y+18)
       }
       ctx.closePath()
       ctx.stroke()
@@ -60,26 +78,26 @@ function drawTank(tank) {
     case 1:
     case 3:
       // 设置颜色
-      ctx.fillStyle = '#ded284'
+      ctx.fillStyle = tank.color[0]
       // 左边矩形
-      ctx.fillRect(hero.x-18, hero.y-12, 36, 6)
+      ctx.fillRect(tank.x-18, tank.y-12, 36, 6)
       // 右边矩形
-      ctx.fillRect(hero.x-18, hero.y+6, 36, 6)
+      ctx.fillRect(tank.x-18, tank.y+6, 36, 6)
       // 中间矩形
-      ctx.fillRect(hero.x-11, hero.y-5, 22, 10)
+      ctx.fillRect(tank.x-11, tank.y-5, 22, 10)
       // 坦克的盖子
-      ctx.fillStyle = '#ffd972'
-      ctx.arc(hero.x, hero.y, 5, 0, 2*Math.PI, true)
+      ctx.fillStyle = tank.color[1]
+      ctx.arc(tank.x, tank.y, 5, 0, 2*Math.PI, true)
       ctx.fill()
       // 炮筒
       ctx.beginPath()
-      ctx.strokeStyle = '#ffd972'
+      ctx.strokeStyle = tank.color[1]
       ctx.lineWidth = '2px'
-      ctx.moveTo(hero.x, hero.y)
+      ctx.moveTo(tank.x, tank.y)
       if (tank.direct == 1) {
-        ctx.lineTo(hero.x+18, hero.y)
+        ctx.lineTo(tank.x+18, tank.y)
       } else if (tank.direct == 3) {
-        ctx.lineTo(hero.x-18, hero.y)
+        ctx.lineTo(tank.x-18, tank.y)
       }
       ctx.closePath()
       ctx.stroke()
