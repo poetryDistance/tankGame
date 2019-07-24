@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>html5-坦克大战</title>
+  <script src="./tankGame.js"></script>
+</head>
+<body onkeydown="getCommand()">
+  <h1>坦克大战</h1>
+  <canvas id="tankMap" width="400" height="300" style="background-color: black;" ></canvas>
+
+  <script>
+    var canvas = document.getElementById('tankMap')
+    var ctx = canvas.getContext('2d')
+
+    var hero = new HeroTank(24, 36, 2, 0)
+
+    drawTank(hero)
+
+    // 让坦克动起来
+    function getCommand () {
+      var code = event.keyCode
+      switch (code) {
+        // 上
+        case 87:
+          hero.moveUp()
+          break
+        // 右
+        case 68:
+          hero.moveRight()
+          break
+        // 下
+        case 83:
+          hero.moveDown()
+          break
+        // 左
+        case 65:
+          hero.moveLeft()
+          break
+      }
+      ctx.clearRect(0, 0, 400, 300)
+      drawTank(hero)
+    }
+  </script>
+</body>
+</html>
